@@ -13,7 +13,8 @@ import {
   format,
   layout,
   sizes,
-  bus
+  bus,
+  IconButtonTwo
 } from "../EVERYTHING/BAGEL/Things";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { ScrollView } from "react-native";
@@ -86,7 +87,15 @@ export function Signup({ navigation, route }) {
       statusBar={"light"}
     >
       <View style={[layout.padding, { flex: 1 }]}>
-        <View>
+        <View style={[layout.horizontal, {alignItems: "center"}]}>
+        <IconButtonTwo
+              name="arrow-back-outline"
+              size={30}
+              color="white"
+              onPress={() => {
+                navigation.navigate("start-menu");
+              }}
+            />
           <Text
             style={[colors.white, sizes.large_text, layout.padding_vertical]}
           >

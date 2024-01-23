@@ -2,7 +2,7 @@
   "expo": {
     "name": "Cafeina Cafe App",
     "slug": "cafeina-cafe-app",
-    "version": "1.0.8",
+    "version": "1.0.12",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,9 +21,14 @@
           "sound": true
         },
         "android": {
-          "color": "#000000",
-          "priority": "max",
-          "permissions": ["READ_EXTERNAL_STORAGE"]
+          "useNextNotificationsApi": true,
+        "color": "#000000",
+        "priority": "max",
+        "sound": true,
+        "vibrate": true,
+        "firebaseSenderId": "931444482872",
+        "firebaseAppId": "1:931444482872:android:07700be798805c3842d7cd",
+        "firebaseApiKey": "AIzaSyD6dYviMLxisVSdckCID3rSNR_4IIEApUE"
         }
       }
     },
@@ -32,7 +37,8 @@
       "bundleIdentifier": "com.iicdev.CafeinaCafeApp"
     },
     "android": {
-      "versionCode": 12,
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 16,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -42,7 +48,9 @@
         "android.permission.CAMERA",
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.SCHEDULE_EXACT_ALARM"
       ],
       "package": "com.iicdev.CafeinaCafeApp"
     },

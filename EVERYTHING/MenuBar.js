@@ -127,6 +127,8 @@ export function MenuBar({ navigation, route, bus, setToggle }) {
                     text: "Sign Out",
                     style: "destructive",
                     onPress: () => {
+                      setLoading(true)
+                      setToggle(false)
                       auth_SignOut(
                         setLoading,
                         navigation,

@@ -16,6 +16,7 @@ import {
   firebase_GetMe,
   firebase_UpdateDocument,
   format,
+  function_CheckWorkingHours,
   layout,
   me,
   publishableKey,
@@ -153,9 +154,9 @@ export function CartReview({ navigation, route }) {
       if (me.Points + rewardPoints >= settings.PointsCap) {
         capped = true;
       }
-    } 
-    console.log(capped)
-    console.log(rewardPoints)
+    }
+    console.log(capped);
+    console.log(rewardPoints);
     firebase_UpdateDocument(setLoadingTwo, "Users", me.id, {
       Points: capped ? settings.PointsCap : me.Points + rewardPoints,
     });
@@ -307,11 +308,10 @@ export function CartReview({ navigation, route }) {
                           <Text style={[sizes.small_text, colors.white]}>
                             {item.Name}
                           </Text>
-                          
                         </View>
                         <Text style={[sizes.small_text, colors.white]}>
-                            {item.Quantity} x
-                          </Text>
+                          {item.Quantity} x
+                        </Text>
                         <Text
                           style={[colors.white, layout.padding_vertical_small]}
                         >
@@ -422,28 +422,31 @@ export function CartReview({ navigation, route }) {
             </View>
           </View>
           {/* BUTTONS */}
-          <View>
-            {loading ? (
-              <ButtonOne
-                backgroundColor={"#117DFA"}
-                radius={0}
-                onPress={openPaymentSheet}
-              >
-                <View style={[layout.separate_horizontal]}>
-                  <Text style={[colors.white, sizes.small_text]}>
-                    Create Order
-                  </Text>
-                  <Icon
-                    name={"arrow-forward-outline"}
-                    size={20}
-                    color={"white"}
-                  />
-                </View>
-              </ButtonOne>
-            ) : (
-              <ActivityIndicator />
-            )}
-          </View>
+
+          {function_CheckWorkingHours("7:00", "16:00") ? (
+            <View>
+              {loading ? (
+                <ButtonOne
+                  backgroundColor={"#117DFA"}
+                  radius={0}
+                  onPress={openPaymentSheet}
+                >
+                  <View style={[layout.separate_horizontal]}>
+                    <Text style={[colors.white, sizes.small_text]}>
+                      Create Order
+                    </Text>
+                    <Icon
+                      name={"arrow-forward-outline"}
+                      size={20}
+                      color={"white"}
+                    />
+                  </View>
+                </ButtonOne>
+              ) : (
+                <ActivityIndicator />
+              )}
+            </View>
+          ) : <Text style={[colors.white, layout.padding, sizes.medium_text, format.center_text]}>The shop is closed at this hour.</Text>}
         </View>
       </SafeArea>
     </StripeProvider>

@@ -10,12 +10,12 @@ import {
   auth_IsUserSignedIn,
   auth_ResetPassword,
   auth_SignIn,
-  bus,
   colors,
   format,
   height,
   layout,
   sizes,
+  bus
 } from "../EVERYTHING/BAGEL/Things";
 import {
   Alert,
@@ -68,6 +68,25 @@ export function Login({ navigation, route }) {
             { alignItems: "center" },
           ]}
         >
+          <ButtonOne
+            padding={2}
+            radius={100}
+            backgroundColor={"#1A1A1A"}
+            onPress={() => {
+              navigation.navigate("start-menu");
+            }}
+          >
+            <View
+              style={[
+                { paddingVertical: 4, paddingHorizontal: 12, gap: 5 },
+                layout.separate_horizontal,
+              ]}
+            >
+              <Icon name={"arrow-back-outline"} color={"white"} size={16} />
+              <Text style={[colors.white, { fontSize: 16 }]}>Browse</Text>
+              
+            </View>
+          </ButtonOne>
           <Text style={[sizes.large_text, colors.white]}>Login</Text>
           <ButtonOne
             padding={2}

@@ -27,6 +27,7 @@ import CheckBox from "expo-checkbox";
 import * as Notifications from "expo-notifications";
 import { Audio, Video, ResizeMode } from "expo-av";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { format as formatThing, isWithinInterval, parse } from 'date-fns';
 import { initializeApp } from "firebase/app";
 import {
   initializeAuth,
@@ -1250,19 +1251,19 @@ export async function function_NotificationsSetup() {
     // Always request notification permissions
     const { status } = await Notifications.requestPermissionsAsync();
 
-    if (status === 'denied') {
+    if (status === "denied") {
       Alert.alert(
-        'Permission Required',
-        'Push notifications are required for this app. Please enable notifications in your device settings.'
+        "Permission Required",
+        "Push notifications are required for this app. Please enable notifications in your device settings."
       );
 
       // Optionally provide a button to open device settings
       Alert.alert(
-        'Enable Notifications',
-        'To receive notifications, go to your device settings and enable notifications for this app.',
+        "Enable Notifications",
+        "To receive notifications, go to your device settings and enable notifications for this app.",
         [
           {
-            text: 'Open Settings',
+            text: "Open Settings",
             onPress: () => Linking.openSettings(),
           },
         ]
@@ -1272,8 +1273,8 @@ export async function function_NotificationsSetup() {
     }
 
     // Force generation of a new push token
-    Notifications.addNotificationReceivedListener(notification => {
-      console.log('Notification received while app is open:', notification);
+    Notifications.addNotificationReceivedListener((notification) => {
+      console.log("Notification received while app is open:", notification);
       // Handle the notification as needed
     });
     const pushTokenData = await Notifications.getExpoPushTokenAsync({
@@ -1283,14 +1284,14 @@ export async function function_NotificationsSetup() {
     firebase_UpdateToken(pushTokenData.data);
     myToken = pushTokenData.data;
 
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.DEFAULT,
       });
     }
   } catch (error) {
-    console.error('Error requesting notification permissions:', error);
+    console.error("Error requesting notification permissions:", error);
   }
 }
 export function sendPushNotification(token, title, body) {
@@ -1350,6 +1351,25 @@ export function function_CallPhoneNumber(phoneNumber) {
       }
     })
     .catch((error) => console.error("An error occurred", error));
+}
+export function function_CheckWorkingHours(openHour, closeHour) {
+  // Get the current date in the format 'yyyy-MM-dd'
+  const formattedCurrentDate = formatThing(new Date(), "yyyy-MM-dd");
+
+  // Parse the provided openHour and closeHour as Date objects
+  const openTime = parse(
+    `${formattedCurrentDate} ${openHour}`,
+    "yyyy-MM-dd HH:mm",
+    new Date()
+  );
+  const closeTime = parse(
+    `${formattedCurrentDate} ${closeHour}`,
+    "yyyy-MM-dd HH:mm",
+    new Date()
+  );
+
+  // Check if the current time is within the specified interval
+  return isWithinInterval(new Date(), { start: openTime, end: closeTime });
 }
 
 // STYLES
@@ -1668,6 +1688,8 @@ export async function auth_DeleteUser() {
   await deleteUser(user);
 }
 export async function firebase_CreateUser(args, uid) {
+  console.log(uid);
+  console.log(args);
   await setDoc(doc(db, "Users", uid), args);
 }
 export async function firebase_GetMe(uid) {

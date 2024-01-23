@@ -15,15 +15,55 @@ import { Rewards } from "./SCREENS/Rewards";
 import { ItemDetail } from "./SCREENS/ItemDetail";
 import { CartReview } from "./SCREENS/CartReview";
 import { Info } from "./SCREENS/Info";
+import { StartMenu } from "./SCREENS/StartMenu";
+import { StartItemDetail } from "./SCREENS/StartItemDetail";
+import { StartBlog } from "./SCREENS/StartBlog";
+import { StartInfo } from "./SCREENS/StartInfo";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
+      <Stack.Navigator initialRouteName="start-menu">
+        <Stack.Screen
+          name="start-menu"
+          component={StartMenu}
+          options={{
+            headerShown: false,
+            animation: "fade",
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="start-item-detail"
+          component={StartItemDetail}
+          options={{
+            headerShown: false,
+            animation: "slide_from_right",
+            gestureEnabled: true,
+            gestureDirection: "horizontal",
+          }}
+        />
+        <Stack.Screen
+          name="start-blog"
+          component={StartBlog}
+          options={{
+            headerShown: false,
+            animation: "fade",
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="start-info"
+          component={StartInfo}
+          options={{
+            headerShown: false,
+            animation: "fade",
+            gestureEnabled: false,
+          }}
+        />
         <Stack.Screen
           name="login"
           component={Login}
@@ -33,7 +73,7 @@ export default function App() {
             gestureEnabled: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="signup"
           component={Signup}
           options={{
@@ -78,7 +118,7 @@ export default function App() {
             gestureEnabled: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="blog"
           component={Blog}
           options={{
@@ -87,7 +127,7 @@ export default function App() {
             gestureEnabled: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="profile"
           component={Profile}
           options={{
@@ -96,7 +136,7 @@ export default function App() {
             gestureEnabled: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="favorites"
           component={Favorites}
           options={{
@@ -123,7 +163,7 @@ export default function App() {
             gestureEnabled: true,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="cart-review"
           component={CartReview}
           options={{

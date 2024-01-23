@@ -32,6 +32,8 @@ npx expo install expo-av
 npx expo install expo-asset
 npx expo install @react-native-community/datetimepicker
 npm install stripe --save
+npm install date-fns
+
 
 SYNTAX -
 ------ JSX

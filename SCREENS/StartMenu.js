@@ -8,6 +8,7 @@ import {
   SafeArea,
   Spacer,
   SplitView,
+  auth_IsUserSignedIn,
   bus,
   colors,
   coords,
@@ -33,12 +34,10 @@ import {
 } from "react-native";
 import { MenuBar } from "../EVERYTHING/MenuBar";
 
-export function Order({ navigation, route }) {
+export function StartMenu({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [items, setItems] = useState([]);
   const [chosenCategory, setChosenCategory] = useState("");
-  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -53,11 +52,15 @@ export function Order({ navigation, route }) {
       "",
       ""
     );
-    firebase_GetDocument(setLoading, "Settings", "settings", setSettings);
-    if (myToken !== "") {
-      firebase_UpdateToken(myToken)
-    }
-  }, [myToken]);
+    auth_IsUserSignedIn(
+        setLoading,
+        navigation,
+        "order",
+        "login",
+        bus
+      );
+   
+  }, []);
 
   return (
     <SafeArea
@@ -68,14 +71,16 @@ export function Order({ navigation, route }) {
       <View style={[layout.padding, layout.separate_horizontal]}>
         <Text style={[colors.white, sizes.medium_text]}>Order Menu</Text>
         <View style={[layout.horizontal]}>
-          <IconButtonTwo
-            name="heart"
+
+        <IconButtonTwo
+            name="information-circle-outline"
             size={30}
             color={"white"}
             onPress={() => {
-              navigation.navigate("favorites", bus);
+              navigation.navigate("start-info")
             }}
           />
+          
           <IconButtonTwo
             name="car"
             size={30}
@@ -85,19 +90,19 @@ export function Order({ navigation, route }) {
             }}
           />
           <IconButtonTwo
-            name="cart"
-            size={30}
+            name="newspaper-outline"
+            size={25}
             color={"white"}
             onPress={() => {
-              navigation.navigate("cart", bus);
+              navigation.navigate("start-blog")
             }}
           />
           <IconButtonTwo
-            name="menu-outline"
-            size={30}
+            name="person"
+            size={25}
             color={"white"}
             onPress={() => {
-              setShowModal(true);
+              navigation.navigate("login")
             }}
           />
         </View>
@@ -136,32 +141,10 @@ export function Order({ navigation, route }) {
                     format.bold,
                   ]}
                 >
-                  {settings.Headline}
+                  Featured
                 </Text>
               </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("profile", bus);
-                }}
-              >
-                <View
-                  style={[
-                    {
-                      backgroundColor: "rgba(0,0,0,0.2)",
-                      paddingVertical: 8,
-                      paddingHorizontal: 16,
-                      alignSelf: "flex-start",
-                      alignItems: "center",
-                    },
-                    layout.margin,
-                    format.radius_full,
-                  ]}
-                >
-                  <Text style={[{ color: "#117DFA" }]}>
-                    Points: {me.Points}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+             
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={[layout.padding_horizontal, layout.horizontal]}>
@@ -172,7 +155,7 @@ export function Order({ navigation, route }) {
                       <TouchableOpacity
                         key={i}
                         onPress={() => {
-                          navigation.navigate("item-detail", { bus, item, savedOptions: [], savedDetails: "" });
+                          navigation.navigate("start-item-detail", {item });
                         }}
                         style={[
                           {
@@ -300,12 +283,7 @@ export function Order({ navigation, route }) {
                                     
                                     ]}
                                     onPress={() => {
-                                      navigation.navigate("item-detail", {
-                                        bus,
-                                        item: thing,
-                                        savedOptions: [],
-                                        savedDetails: ""
-                                      });
+                                        navigation.navigate("start-item-detail", {item: thing});
                                     }}
                                   >
                                     <AsyncImage
@@ -333,14 +311,7 @@ export function Order({ navigation, route }) {
           </View>
         </ScrollView>
       </RoundedCorners>
-      <Modal visible={showModal} animationType="slide">
-        <MenuBar
-          navigation={navigation}
-          route={route}
-          bus={bus}
-          setToggle={setShowModal}
-        />
-      </Modal>
+     
     </SafeArea>
   );
 }
